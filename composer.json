@@ -1,0 +1,39 @@
+{
+    "name": "jordanbain/laravel-first-atlantic-commerce",
+    "description": "First Atlantic Commerce EMV 3DS 2 payment processing driver for laravel",
+    "type": "library",
+    "require": {
+        "php": "^7.3",
+        "league/iso3166": "^4.0.0",
+        "moneyphp/money": "^3.3.1",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "illuminate/support": "^8.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3.3"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Jordanbain\\FirstAtlanticCommerce\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jordan bain",
+            "email": "jordanbaindev961@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jordanbain\\FirstAtlanticCommerce\\FirstAtlanticCommerceServiceProvider"
+            ],
+            "aliases": {
+                "FirstAtlanticCommerce": "Jordanbain\\FirstAtlanticCommerce\\Facades\\FirstAtlanticCommerce"
+            }
+        }
+    }
+}
