@@ -12,27 +12,15 @@
 return [
 
     /**
-     * Public Key From Paystack Dashboard
+     * PowerTranz ID
      *
      */
-    'publicKey' => env('PAYSTACK_PUBLIC_KEY'),
+    'powerTranzID' => getenv('POWERTRANZ_ID'),
 
     /**
-     * Secret Key From Paystack Dashboard
+     * PowerTrans Password
      *
      */
-    'secretKey' => env('PAYSTACK_SECRET_KEY'),
-
-    /**
-     * Paystack Payment URL
-     *
-     */
-    'paymentUrl' => env('PAYSTACK_PAYMENT_URL'),
-
-    /**
-     * Optional email address of the merchant
-     *
-     */
-    'merchantEmail' => env('MERCHANT_EMAIL'),
+    'powerTransPassword' => env('POWERTRANZ_PASSWORD')
 
 ];
