@@ -1,1 +1,1 @@
-php artisan vendor:publish --tag=courier-config
+
