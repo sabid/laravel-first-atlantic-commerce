@@ -15,6 +15,18 @@ class AbstractAPI
     private const HTTPS = 'https://';
     private const PRODUCTION = 'staging.ptranz.com/api/', STAGING = 'TBD.ptranz.com/api/';
 
+
+    protected string $powerTranzID;
+    protected string $powerTranzPassword;
+    protected bool $isStaging;
+
+    public function __construct(string $powerTranzID, string $powerTranzPassword, bool $isStaging)
+    {
+        $this->powerTranzID = $powerTranzID;
+        $this->powerTranzPassword = $powerTranzPassword;
+        $this->isStaging = $isStaging;
+    }
+
     /**
      * Http client instance with headers
      *
@@ -25,7 +37,11 @@ class AbstractAPI
     {
         return Http::withHeaders(
             Arr::collapse([
-                $headers
+                $headers,
+                [
+                    'PowerTranz-PowerTranzId' => $this->powerTranzID,
+                    'PowerTranz-Password' => $this->powerTranzPassword,
+                ],
             ])
         );
     }
@@ -90,7 +106,7 @@ class AbstractAPI
      */
     private function validation(string $path, array $params, array $rules)
     {
-        $url = (env('APP_ENV', 'local') == 'production') ? SELF::PRODUCTION : SELF::STAGING;
+        $url = ($this->isStaging) ? SELF::STAGING : SELF::PRODUCTION;
 
         if (empty($rules)) return ['url' => SELF::HTTPS . $url . $path, 'params' => $params];
 
