@@ -1,18 +1,20 @@
 <?php
 
-namespace Jordanbain\FirstAtlanticCommerce\API\Trait;
+namespace Jordanbain\FirstAtlanticCommerce\API;
+
+use Jordanbain\FirstAtlanticCommerce\API\AbstractAPI;
 
 /**
  * TransactionQueries Trait
  */
-trait TransactionQueries
+class TransactionQueries extends AbstractAPI
 {
     public function search(array $params = [], array $headers = [])
     {
         return $this->get('Transactions/Search', $params, $headers);
     }
 
-    public function details(string $transactionID, array $params = [], array $headers)
+    public function transactionQuiriesDetails(string $transactionID, array $params = [], array $headers)
     {
         return $this->get('Transactions/' . $transactionID, $params, $headers);
     }

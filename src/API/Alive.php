@@ -1,11 +1,13 @@
 <?php
 
-namespace Jordanbain\FirstAtlanticCommerce\API\Trait;
+namespace Jordanbain\FirstAtlanticCommerce\API;
+
+use Jordanbain\FirstAtlanticCommerce\API\AbstractAPI;
 
 /**
  * Alive trait
  */
-trait Alive
+class Alive extends AbstractAPI
 {
     public function isAlive(array $params = [], array $headers = [])
     {

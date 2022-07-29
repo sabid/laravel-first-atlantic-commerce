@@ -1,11 +1,13 @@
 <?php
 
-namespace Jordanbain\FirstAtlanticCommerce\API\Trait;
+namespace Jordanbain\FirstAtlanticCommerce\API;
+
+use Jordanbain\FirstAtlanticCommerce\API\AbstractAPI;
 
 /**
  * ThreeDSecure Trait
  */
-trait ThreeDSecure
+class ThreeDSecure extends AbstractAPI
 {
     public function auth3DS2(string $token, array $headers = [])
     {
