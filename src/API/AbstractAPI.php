@@ -3,18 +3,19 @@
 namespace Jordanbain\FirstAtlanticCommerce\API;
 
 use App\Exceptions\InvalidParameterException;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use GuzzleHttp\Client;
 
 class AbstractAPI
 {
     private const HTTPS = 'https://';
-    private const PRODUCTION = 'staging.ptranz.com/api/', STAGING = 'TBD.ptranz.com/api/';
-
+    private const PRODUCTION = 'TBD.ptranz.com/api/', STAGING = 'staging.ptranz.com/api/';
 
     protected string $powerTranzID;
     protected string $powerTranzPassword;
@@ -35,15 +36,24 @@ class AbstractAPI
      */
     public function Http(array $headers)
     {
-        return Http::withHeaders(
-            Arr::collapse([
-                $headers,
-                [
-                    'PowerTranz-PowerTranzId' => $this->powerTranzID,
-                    'PowerTranz-Password' => $this->powerTranzPassword,
-                ],
-            ])
-        );
+        /*
+        $response = Http::withHeaders([
+            'X-First' => 'foo',
+            'X-Second' => 'bar'
+        ])
+        */
+
+        return Http::
+            //->dd()
+            withHeaders(
+                Arr::collapse([
+                    $headers,
+                    [
+                        'PowerTranz-PowerTranzId' => $this->powerTranzID,
+                        'PowerTranz-PowerTranzPassword' => $this->powerTranzPassword,
+                    ],
+                ])
+            );
     }
 
     /**
@@ -60,7 +70,7 @@ class AbstractAPI
         $validated = $this->validation($path, $params, $rules);
 
         return $this->decodeResponse(
-            SELF::Http($headers)->get($validated['url'], $validated['params'])
+           $this->Http($headers)->get($validated['url'], $validated['params'])
         );
     }
 
@@ -72,13 +82,16 @@ class AbstractAPI
      * @param array $rules
      * @param array $headers
      * @return Collection
+     * @throws GuzzleException
      */
     public function post(string $path, array $params, array $headers, array $rules = [])
     {
         $validated = $this->validation($path, $params, $rules);
 
+        //dd($validated);
+
         return $this->decodeResponse(
-            SELF::Http($headers)->post($validated['url'], $validated['params'])
+            $this->Http($headers)->post($validated['url'], $validated['params'])
         );
     }
 
@@ -91,7 +104,13 @@ class AbstractAPI
      */
     private function decodeResponse(Response $response)
     {
-        if ($response->failed()) $response->throw();
+        if ($response->failed()) {
+            $response->throw();
+            //dd($response);
+        }
+
+        //dd($response->body());
+
         return $response->collect();
     }
 
@@ -106,16 +125,19 @@ class AbstractAPI
      */
     private function validation(string $path, array $params, array $rules)
     {
-        $url = ($this->isStaging) ? SELF::STAGING : SELF::PRODUCTION;
 
-        if (empty($rules)) return ['url' => SELF::HTTPS . $url . $path, 'params' => $params];
+        //dd($rules);
+
+        $url = ($this->isStaging) ? self::STAGING : self::PRODUCTION;
+
+        if (empty($rules)) return ['url' => self::HTTPS . $url . $path, 'params' => $params];
 
         $validator = Validator::make($params, $rules);
 
         if ($validator->fails()) throw new InvalidParameterException(implode("; ", $validator->errors()->all()), 1);
 
         return [
-            'url' => SELF::HTTPS . $url . $path,
+            'url' => self::HTTPS . $url . $path,
             'params' => $validator->validated()
         ];
     }

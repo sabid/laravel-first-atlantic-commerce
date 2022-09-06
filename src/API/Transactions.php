@@ -9,6 +9,11 @@ use Jordanbain\FirstAtlanticCommerce\Support\ValidationRules;
  */
 class Transactions extends AbstractAPI
 {
+    public function __construct(string $powerTranzID, string $powerTranzPassword, bool $isStaging)
+    {
+        parent::__construct($powerTranzID, $powerTranzPassword, $isStaging);
+    }
+
     public function auth(bool $isSPI, array $params = [], array $headers = [])
     {
         $path = $isSPI ? 'spi/Auth' : 'Auth';

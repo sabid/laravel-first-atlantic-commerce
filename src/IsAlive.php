@@ -7,14 +7,15 @@ use Jordanbain\FirstAtlanticCommerce\API\Alive;
 class IsAlive
 {
     private $alive;
+    private string $powerTranzID;
+    private string $powerTranzPassword;
 
-    public function __construct(
-        string $powerTranzID = config('fac.powerTranzID'),
-        string $powerTranzPassword  = config('fac.powerTransPassword'),
-        bool $isStaging = false,
-    )
+    public function __construct(string $powerTranzID, string $powerTranzPassword, bool $isStaging = false)
     {
-        $this->alive = new Alive($powerTranzID, $powerTranzPassword, $isStaging);
+        $this->powerTranzID = config('fac.powerTranzID');
+        $this->powerTranzPassword  = config('fac.powerTransPassword');
+
+        $this->alive = new Alive($this->powerTranzID, $this->powerTranzPassword, $isStaging);
     }
 
     public function __invoke()

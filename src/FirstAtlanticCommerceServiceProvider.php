@@ -14,6 +14,7 @@ class FirstAtlanticCommerceServiceProvider extends ServiceProvider implements De
      */
     public function register()
     {
+
         $this->app->bind(Card::class, function ($app) {
             return new Card();
         });

@@ -15,7 +15,7 @@ return [
      * PowerTranz ID
      *
      */
-    'powerTranzID' => getenv('POWERTRANZ_ID'),
+    'powerTranzID' => env('POWERTRANZ_ID'),
 
     /**
      * PowerTrans Password

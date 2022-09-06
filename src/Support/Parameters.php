@@ -29,7 +29,8 @@ trait Parameters
 
     public function setCurrency(string $currency)
     {
-        $this->body->Currency = $currency;
+        //$this->body->currency = $currency;
+        $this->body->CurrencyCode = $currency;
 
         return $this;
     }
@@ -39,14 +40,15 @@ trait Parameters
         string $expiry,
         string $cvv,
         string $holderName
-    )
+    ): void
     {
         $card = is_array($number)
             ? $number
             : [
                 'CardPan' => $number,
-                'CardExpiry' => $expiry,
-                'CardCVV' => $cvv,
+                //'CardExpiry' => $expiry,
+                'CardExpiration' => $expiry,
+                'CardCvv' => $cvv,
                 'CardHolderName' => $holderName,
             ]
         ;
@@ -110,6 +112,7 @@ trait Parameters
         ;
 
         $this->body->BillingAddress = $billingAddress;
+        //$this->body->ExtendedData['SecondaryAddress'] = $billingAddress;
 
         return $this;
     }
@@ -148,16 +151,23 @@ trait Parameters
 
     public function set3DS(
         int $challengeWindowSize = 1,
-        int $challendeIndicator = 01,
+        string $challengeIndicator = "01",
         array $accountInfo = [],
         array $additionalOptions = []
     )
     {
         $this->body->ThreeDSecure = true;
-        $this->body->ExtendedData['ThreeDSecure'] = Arr::collapse([[
-            'ChallengeWindowSize' => $challengeWindowSize,
-            'ChallengeIndicator' => $challendeIndicator,
-        ], ['AccountInfo' => $accountInfo], $additionalOptions]);
+        $this->body->ExtendedData['ThreeDSecure'] =
+            Arr::collapse([
+                [
+                    'ChallengeWindowSize' => $challengeWindowSize,
+                    'ChallengeIndicator' => $challengeIndicator,
+                ],
+                [
+                    //'AccountInfo' => $accountInfo],
+                    //$additionalOptions
+                ]
+            ]);
 
         return $this;
     }
@@ -177,28 +187,28 @@ trait Parameters
      *
      * @param string $startDate
      * @param string $frequency
-     * @param string $epiryDate
+     * @param string $expiryDate
      * @return self
      */
     public function setRecurring(
         string $startDate,
         string $frequency,
-        string $epiryDate
+        string $expiryDate
     )
     {
         $this->body->Recurring = true;
         $this->body->ExtendedData->Recurring = [
             'StartDate' => $startDate,
             'Frequency' => $frequency,
-            'ExpiryDate' => $epiryDate,
+            'ExpiryDate' => $expiryDate,
         ];
 
         return $this;
     }
-    
+
     /**
      * Get the value of BrowserInfo
-     */ 
+     */
     public function getBrowserInfo()
     {
         return $this->body->BrowserInfo;
@@ -206,7 +216,7 @@ trait Parameters
 
     /**
      * Set the value of BrowserInfo
-     *  
+     *
      * @param string $acceptHeader,
      * @param string $language,
      * @param string $screenHeight,
@@ -247,17 +257,17 @@ trait Parameters
 
         return $this;
     }
-    
+
     /**
      * Get the value of HostedPage
-     */ 
+     */
     public function getHostedPage()
     {
         return $this->body->HostedPage;
     }
 
     /**
-     * Set the values of Hosted Payment Page 
+     * Set the values of Hosted Payment Page
      *
      * @param string $pageSet
      * @param string $pageName
@@ -272,20 +282,20 @@ trait Parameters
 
         return $this;
     }
-    
+
     /**
      * Get the value of accountVerification
-     */ 
+     */
     public function getAccountVerification()
     {
-        return $this->Body->AccountVerification;
+        return $this->body->AccountVerification;
     }
 
     /**
      * Set the value of accountVerification
      *
      * @return  self
-     */ 
+     */
     public function setAccountVerification(bool $accountVerification)
     {
         $this->body->AccountVerification = $accountVerification;
@@ -295,7 +305,7 @@ trait Parameters
 
     /**
      * Get the value of cardOnFile
-     */ 
+     */
     public function getCardOnFile()
     {
         return $this->body->CardOnFile;
@@ -305,7 +315,7 @@ trait Parameters
      * Set the value of cardOnFile
      *
      * @return  self
-     */ 
+     */
     public function setCardOnFile(bool $cardOnFile)
     {
         $this->body->CardOnFile = $cardOnFile;
@@ -315,7 +325,7 @@ trait Parameters
 
     /**
      * Get the value of recurringInitial
-     */ 
+     */
     public function getRecurringInitial()
     {
         return $this->body->RecurringInitial;
@@ -325,7 +335,7 @@ trait Parameters
      * Set the value of recurringInitial
      *
      * @return  self
-     */ 
+     */
     public function setRecurringInitial(bool $recurringInitial)
     {
         $this->body->RecurringInitial = $recurringInitial;
@@ -334,9 +344,9 @@ trait Parameters
     }
 
     /**
-     * Get the value of fruadCheck
-     */ 
-    public function getFruadCheck()
+     * Get the value of fraudCheck
+     */
+    public function getFraudCheck()
     {
         return $this->body->FruadCheck;
     }
@@ -345,17 +355,17 @@ trait Parameters
      * Set the value of fruadCheck
      *
      * @return  self
-     */ 
-    public function setFruadCheck(bool $fruadCheck)
+     */
+    public function setFraudCheck(bool $fraudCheck)
     {
-        $this->Body->FruadCheck = $fruadCheck;
+        $this->body->FruadCheck = $fraudCheck;
 
         return $this;
     }
 
     /**
      * Get the value of binCheck
-     */ 
+     */
     public function getBinCheck()
     {
         return $this->body->binCheck;
@@ -365,7 +375,7 @@ trait Parameters
      * Set the value of binCheck
      *
      * @return  self
-     */ 
+     */
     public function setBinCheck(bool $binCheck)
     {
         $this->body->BinCheck = $binCheck;
@@ -375,7 +385,7 @@ trait Parameters
 
     /**
      * Get the value of addressVerification
-     */ 
+     */
     public function getAddressVerification()
     {
         return $this->body->addressVerification;
@@ -385,7 +395,7 @@ trait Parameters
      * Set the value of addressVerification
      *
      * @return  self
-     */ 
+     */
     public function setAddressVerification(bool $addressVerification)
     {
         $this->body->AddressVerification = $addressVerification;
@@ -395,7 +405,7 @@ trait Parameters
 
     /**
      * Get the value of transactionIdentifier
-     */ 
+     */
     public function getTransactionIdentifier()
     {
         return $this->TransactionIdentifier;
@@ -405,7 +415,7 @@ trait Parameters
      * Set the value of transactionIdentifier
      *
      * @return  self
-     */ 
+     */
     public function setTransactionIdentifier(string $transactionIdentifier)
     {
         $this->body->TransactionIdentifier = $transactionIdentifier;
@@ -414,8 +424,28 @@ trait Parameters
     }
 
     /**
+     * Get the value of transactionIdentifier
+     */
+    public function getOrderIdentifier()
+    {
+        return $this->OrderIdentifier;
+    }
+
+    /**
+     * Set the value of transactionIdentifier
+     *
+     * @return  self
+     */
+    public function setOrderIdentifier(string $orderIdentifier)
+    {
+        $this->body->OrderIdentifier = $orderIdentifier;
+
+        return $this;
+    }
+
+    /**
      * Get the value of merchantResponseUrl
-     */ 
+     */
     public function getMerchantResponseUrl()
     {
         return $this->body->MerchantResponseUrl;
@@ -425,11 +455,33 @@ trait Parameters
      * Set the value of merchantResponseUrl
      *
      * @return  self
-     */ 
+     */
     public function setMerchantResponseUrl(string $merchantResponseUrl)
     {
-        $this->body->MerchantResponseUrl = $merchantResponseUrl;
+        $this->body->ExtendedData['MerchantResponseUrl'] = $merchantResponseUrl;
 
         return $this;
     }
+
+    /**
+     * Get the value of addressMatch
+     */
+    public function getAddressMatch()
+    {
+        return $this->body->MerchantResponseUrl;
+    }
+
+    /**
+     * Set the value of addressMatch
+     *
+     * @return  self
+     */
+    public function setAddressMatch(bool $addressMatch)
+    {
+        $this->body->AddressMatch = $addressMatch;
+
+        return $this;
+    }
+
+
 }

@@ -8,15 +8,27 @@ use Jordanbain\FirstAtlanticCommerce\Support\Parameters;
 
 class Card
 {
-    private object $body = new \stdClass(), $transactions;
+    use Parameters;
+
+    //private object $body = new \stdClass();
+    private object $body;
+    private object $transactions;
+    private string $powerTranzID;
+    private string $powerTranzPassword;
+    //private bool $isSPI = false;
 
     public function __construct(
-        string $powerTranzID = config('fac.powerTranzID'),
-        string $powerTranzPassword  = config('fac.powerTransPassword'),
-        bool $isStaging = false,
+        string $powerTranzID = "88801821",
+        string $powerTranzPassword = "uRzFhyHwpqtp5r9SzOaALgHvNbr8amhsg7ri5XUy4CuneDykEZy10a1",
+        bool $isStaging = true
     )
     {
-        $this->transactions = new Transactions($powerTranzID, $powerTranzPassword, $isStaging);
+        $this->powerTranzID = $powerTranzID; // config('fac.powerTranzID');
+        $this->powerTranzPassword  = $powerTranzPassword; // config('fac.powerTransPassword');
+        $this->body = new \stdClass();
+        $this->isSPI = true; // This set true if the commerce have it own website to process payment.
+
+        $this->transactions = new Transactions($this->powerTranzID, $this->powerTranzPassword, $isStaging);
     }
 
     public function authorize(Closure $closure = null)
@@ -85,9 +97,9 @@ class Card
         return $this->transactions->voidRequest();
     }
 
-    public function toArray()
+    public function toArray(): array
     {
-        return (array) $this->body;
+        return collect($this->body)->toArray();
     }
 
     public function validate()
