@@ -18,8 +18,8 @@ class Card
     //private bool $isSPI = false;
 
     public function __construct(
-        string $powerTranzID = "88801821",
-        string $powerTranzPassword = "uRzFhyHwpqtp5r9SzOaALgHvNbr8amhsg7ri5XUy4CuneDykEZy10a1",
+        string $powerTranzID,
+        string $powerTranzPassword,
         bool $isStaging = true
     )
     {

@@ -15,7 +15,7 @@ use GuzzleHttp\Client;
 class AbstractAPI
 {
     private const HTTPS = 'https://';
-    private const PRODUCTION = 'TBD.ptranz.com/api/', STAGING = 'staging.ptranz.com/api/';
+    private const PRODUCTION = 'gateway.ptranz.com/api/', STAGING = 'staging.ptranz.com/api/';
 
     protected string $powerTranzID;
     protected string $powerTranzPassword;
