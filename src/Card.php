@@ -28,7 +28,7 @@ class Card
         $this->body = new \stdClass();
         $this->isSPI = true; // This set true if the commerce have it own website to process payment.
 
-        $this->transactions = new Transactions($this->powerTranzID, $this->powerTranzPassword, $isStaging);
+        $this->transactions = new Transactions($isStaging, $this->powerTranzID, $this->powerTranzPassword);
     }
 
     public function authorize(Closure $closure = null)

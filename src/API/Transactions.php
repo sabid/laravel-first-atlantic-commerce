@@ -9,9 +9,9 @@ use Jordanbain\FirstAtlanticCommerce\Support\ValidationRules;
  */
 class Transactions extends AbstractAPI
 {
-    public function __construct(string $powerTranzID, string $powerTranzPassword, bool $isStaging)
+    public function __construct(bool $isStaging, string $powerTranzID = null, string $powerTranzPassword = null)
     {
-        parent::__construct($powerTranzID, $powerTranzPassword, $isStaging);
+        parent::__construct($isStaging, $powerTranzID, $powerTranzPassword);
     }
 
     public function auth(bool $isSPI, array $params = [], array $headers = [])
@@ -40,7 +40,7 @@ class Transactions extends AbstractAPI
         return $this->post($path, $params, $headers, ValidationRules::riskMgmt());
     }
 
-    public function payment(string $token, array $headers =[])
+    public function payment(string $token, array $headers = [])
     {
         return $this->post('Payment', [$token], $headers);
     }

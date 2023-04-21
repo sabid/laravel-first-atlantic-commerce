@@ -21,11 +21,14 @@ class AbstractAPI
     protected string $powerTranzPassword;
     protected bool $isStaging;
 
-    public function __construct(string $powerTranzID, string $powerTranzPassword, bool $isStaging)
+    protected bool $authenticationRequired;
+
+    public function __construct(bool $isStaging, string $powerTranzID = null, string $powerTranzPassword = null)
     {
+        $this->isStaging = $isStaging;
+        $this->authenticationRequired = $powerTranzID !== null && $powerTranzPassword !== null;
         $this->powerTranzID = $powerTranzID;
         $this->powerTranzPassword = $powerTranzPassword;
-        $this->isStaging = $isStaging;
     }
 
     /**
@@ -48,10 +51,13 @@ class AbstractAPI
             withHeaders(
                 Arr::collapse([
                     $headers,
-                    [
-                        'PowerTranz-PowerTranzId' => $this->powerTranzID,
-                        'PowerTranz-PowerTranzPassword' => $this->powerTranzPassword,
-                    ],
+                    $this->authenticationRequired ?
+                        [
+                            'PowerTranz-PowerTranzId' => $this->powerTranzID,
+                            'PowerTranz-PowerTranzPassword' => $this->powerTranzPassword
+                        ]
+                        :
+                        []
                 ])
             );
     }

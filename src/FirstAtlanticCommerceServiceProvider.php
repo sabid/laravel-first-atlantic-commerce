@@ -34,6 +34,10 @@ class FirstAtlanticCommerceServiceProvider extends ServiceProvider implements De
         $this->app->bind(ThreeDSecure::class, function ($app) {
             return new ThreeDSecure();
         });
+
+        $this->app->bind(Payment::class, function ($app) {
+            return new Payment();
+        });
     }
 
     /**

@@ -352,7 +352,7 @@ trait Parameters
     }
 
     /**
-     * Set the value of fruadCheck
+     * Set the value of fraudCheck
      *
      * @return  self
      */
@@ -368,7 +368,7 @@ trait Parameters
      */
     public function getBinCheck()
     {
-        return $this->body->binCheck;
+        return $this->body->BinCheck;
     }
 
     /**
