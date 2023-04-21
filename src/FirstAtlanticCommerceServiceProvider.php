@@ -64,6 +64,7 @@ class FirstAtlanticCommerceServiceProvider extends ServiceProvider implements De
             Queries::class,
             TermMgmt::class,
             ThreeDSecure::class,
+            Payment::class
         ];
     }
 }
