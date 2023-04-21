@@ -16,7 +16,7 @@ class Payment
         $this->token = $token;
     }
 
-    public function __invoke()
+    public function send()
     {
         return $this->transaction->payment($this->token);
     }
