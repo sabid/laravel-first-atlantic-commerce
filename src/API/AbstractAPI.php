@@ -23,7 +23,7 @@ class AbstractAPI
 
     protected bool $authenticationRequired;
 
-    public function __construct(bool $isStaging, string $powerTranzID = null, string $powerTranzPassword = null)
+    public function __construct(bool $isStaging, ?string $powerTranzID = null, ?string $powerTranzPassword = null)
     {
         $this->isStaging = $isStaging;
         $this->authenticationRequired = $powerTranzID !== null && $powerTranzPassword !== null;

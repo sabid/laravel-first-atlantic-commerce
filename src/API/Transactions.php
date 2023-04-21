@@ -9,7 +9,7 @@ use Jordanbain\FirstAtlanticCommerce\Support\ValidationRules;
  */
 class Transactions extends AbstractAPI
 {
-    public function __construct(bool $isStaging, string $powerTranzID = null, string $powerTranzPassword = null)
+    public function __construct(bool $isStaging, ?string $powerTranzID = null, ?string $powerTranzPassword = null)
     {
         parent::__construct($isStaging, $powerTranzID, $powerTranzPassword);
     }
