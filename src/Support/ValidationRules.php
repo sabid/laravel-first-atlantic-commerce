@@ -233,7 +233,7 @@ class ValidationRules
         'Refund' => 'required|boolean',
         self::REGULAR,
         self::SOURCE,
-        self::EXTENDEDDATA
+        self::EXTENDED_DATA
     ],
 
     VOID = [
@@ -260,7 +260,7 @@ class ValidationRules
         return Arr::collapse([
             self::REGULAR,
             self::SOURCE,
-            self::EXTENDEDDATA
+            self::EXTENDED_DATA
         ]);
     }
 
