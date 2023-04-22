@@ -40,9 +40,11 @@ class Transactions extends AbstractAPI
         return $this->post($path, $params, $headers, ValidationRules::riskMgmt());
     }
 
-    public function payment(string $token, array $headers = [])
+    public function payment(bool $isSPI, string $token, array $headers = [])
     {
-        return $this->post('Payment', [$token], $headers);
+        $path = $isSPI ? 'spi/Payment' : 'Payment';
+
+        return $this->postSingle($path, $token, $headers);
     }
 
     public function captureRequest(array $params = [], array $headers = [])

@@ -47,19 +47,19 @@ class AbstractAPI
         */
 
         return Http::
-            //->dd()
-            withHeaders(
-                Arr::collapse([
-                    $headers,
-                    $this->authenticationRequired ?
-                        [
-                            'PowerTranz-PowerTranzId' => $this->powerTranzID,
-                            'PowerTranz-PowerTranzPassword' => $this->powerTranzPassword
-                        ]
-                        :
-                        []
-                ])
-            );
+        //dd()
+        withHeaders(
+            Arr::collapse([
+                $headers,
+                $this->authenticationRequired ?
+                    [
+                        'PowerTranz-PowerTranzId' => $this->powerTranzID,
+                        'PowerTranz-PowerTranzPassword' => $this->powerTranzPassword
+                    ]
+                    :
+                    []
+            ])
+        );
     }
 
     /**
@@ -76,7 +76,7 @@ class AbstractAPI
         $validated = $this->validation($path, $params, $rules);
 
         return $this->decodeResponse(
-           $this->Http($headers)->get($validated['url'], $validated['params'])
+            $this->Http($headers)->get($validated['url'], $validated['params'])
         );
     }
 
@@ -90,7 +90,7 @@ class AbstractAPI
      * @return Collection
      * @throws GuzzleException
      */
-    public function post(string $path, array $params, array $headers, array $rules = [])
+    public function post(string $path, array|string $params, array $headers, array $rules = [])
     {
         $validated = $this->validation($path, $params, $rules);
 
@@ -98,6 +98,28 @@ class AbstractAPI
 
         return $this->decodeResponse(
             $this->Http($headers)->post($validated['url'], $validated['params'])
+        );
+    }
+
+    /**
+     * Send post request
+     *
+     * @param string $path
+     * @param string $value
+     * @param array $headers
+     * @param array $rules
+     * @return Collection
+     * @throws GuzzleException
+     */
+    public function postSingle(string $path, string $value, array $headers, array $rules = [])
+    {
+        $validated = $this->validation($path, $value, $rules);
+
+        //dd($validated);
+
+        return $this->decodeResponse(
+            $this->Http($headers)
+                ->post($validated['url'], $value)
         );
     }
 
@@ -129,10 +151,8 @@ class AbstractAPI
      * @return array
      * @throws InvalidParameterException
      */
-    private function validation(string $path, array $params, array $rules)
+    private function validation(string $path, array|string $params, array $rules)
     {
-
-        //dd($rules);
 
         $url = ($this->isStaging) ? self::STAGING : self::PRODUCTION;
 

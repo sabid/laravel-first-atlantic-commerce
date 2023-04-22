@@ -42,6 +42,10 @@ class ValidationRules
         'Source' => 'required|array'
     ];
 
+    private const PAYMENT = [
+        'SpiToken' => 'required|string'
+    ];
+
     /**
      * @return array
      */
@@ -272,6 +276,11 @@ class ValidationRules
             self::getExtendedData(),
             self::address('Billing')
         ]);
+    }
+
+    public static function payment()
+    {
+        return self::PAYMENT;
     }
 
     public static function capture()

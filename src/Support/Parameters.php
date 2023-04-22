@@ -35,6 +35,18 @@ trait Parameters
         return $this;
     }
 
+    /**
+     * @param string $spiToken
+     * @return Parameters
+     */
+    public function setSpiToken(string $spiToken)
+    {
+        $this->SpiToken = $spiToken;
+
+        return $this;
+
+    }
+
     public function setCard(
         string $number,
         string $expiry,
