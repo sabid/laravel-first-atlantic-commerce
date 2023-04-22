@@ -41,7 +41,7 @@ trait Parameters
      */
     public function setSpiToken(string $spiToken)
     {
-        $this->SpiToken = $spiToken;
+        $this->body->SpiToken = $spiToken;
 
         return $this;
 
